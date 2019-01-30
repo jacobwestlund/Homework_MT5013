@@ -1,0 +1,45 @@
+﻿"Befolkningens medelålder efter region, kön och år"
+
+"region","kön","2015"
+"01 Stockholms län","män",38.1
+"01 Stockholms län","kvinnor",40.0
+"03 Uppsala län","män",39.4
+"03 Uppsala län","kvinnor",41.0
+"04 Södermanlands län","män",41.5
+"04 Södermanlands län","kvinnor",43.4
+"05 Östergötlands län","män",40.3
+"05 Östergötlands län","kvinnor",42.4
+"06 Jönköpings län","män",40.5
+"06 Jönköpings län","kvinnor",42.6
+"07 Kronobergs län","män",40.8
+"07 Kronobergs län","kvinnor",42.7
+"08 Kalmar län","män",43.0
+"08 Kalmar län","kvinnor",45.1
+"09 Gotlands län","män",43.5
+"09 Gotlands län","kvinnor",45.7
+"10 Blekinge län","män",42.0
+"10 Blekinge län","kvinnor",44.5
+"12 Skåne län","män",40.0
+"12 Skåne län","kvinnor",41.9
+"13 Hallands län","män",41.1
+"13 Hallands län","kvinnor",43.1
+"14 Västra Götalands län","män",40.1
+"14 Västra Götalands län","kvinnor",41.9
+"17 Värmlands län","män",42.6
+"17 Värmlands län","kvinnor",44.8
+"18 Örebro län","män",40.8
+"18 Örebro län","kvinnor",42.8
+"19 Västmanlands län","män",41.3
+"19 Västmanlands län","kvinnor",43.3
+"20 Dalarnas län","män",42.6
+"20 Dalarnas län","kvinnor",44.7
+"21 Gävleborgs län","män",42.5
+"21 Gävleborgs län","kvinnor",44.4
+"22 Västernorrlands län","män",42.6
+"22 Västernorrlands län","kvinnor",44.6
+"23 Jämtlands län","män",42.4
+"23 Jämtlands län","kvinnor",44.2
+"24 Västerbottens län","män",40.7
+"24 Västerbottens län","kvinnor",42.7
+"25 Norrbottens län","män",42.6
+"25 Norrbottens län","kvinnor",44.8

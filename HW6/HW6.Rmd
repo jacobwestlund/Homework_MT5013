@@ -1,0 +1,50 @@
+---
+title: "HW6"
+output: github_document
+---
+
+```{r}
+library(tidyverse)
+library(rvest)
+
+```
+
+
+# Allsvenskan
+
+The first task is to Scrape a table of the teams of Allsvenskan from "http://www.elitefootball.com/league?leagueId=1" structured like ```teams``` on the course website.
+
+```{r}
+# Scrape teams
+url <- "http://www.elitefootball.com/league?leagueId=1"
+p <- read_html(url) %>% html_nodes(".table-condensed a") 
+
+```
+
+The next task is then to write a function to scrape players from the team page at "elitefootball.com".
+
+
+```{r}
+scrape_players <- function(team){
+  url <- paste0("http://www.elitefootball.com", team)
+  response <- GET(url)
+  if (response$status_code != 200) {
+    stop("The url is not valid")
+  } 
+  else {
+    content(response) %>%
+      html_table(fill = TRUE) %>%
+      .[[which(map_lgl(., function(df) names(df)[1] == "P"))]]%>%
+      select(-"") 
+  }
+}
+```
+
+```{r}
+scrape_players("/team/afc-eskilstuna/6185") %>% head()
+```
+
+```{r}
+map(teams, scrape_players(.$link))
+```
+

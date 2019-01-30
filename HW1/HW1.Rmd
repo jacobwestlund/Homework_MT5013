@@ -1,0 +1,81 @@
+---
+title: "HW1"
+output: github_document
+---
+
+## My past programming and computer science experience
+
+When it comes to the use of R, RStudio and its various libraries such as ggplot2 and dplyr, my experience is limited. I have only used R in the Statistical Analysis MT4001 course where the programming was very much a *copy, paste and modify* exercise.
+
+However, I have taken the courses in computer science for mathematicians where we used Python, Git and wrote UNIX scripts. Therefore, I am somewhat comfortable with programming in general (datastructures and algorithms) and I know how to use Git and its workflow, as well as the command line.
+
+## Using ggplot on a data set
+
+Since I am interested in Formula 1, I thought that it would be fun to use a dataset related to Formula 1. F1 is a data driven sport so it is easy to come by datasets. However, many of the datasets that I have found are very large, such as the one found on [Kaggle](https://www.kaggle.com/cjgdev/formula-1-race-data-19502017/version/1). Instead of using a large dataset which most likely would require a lot of data wrangling, I chose to create my own. Since I am not to familiar with the tools for web scarping in R I decided to simply copy a table of the [World Championchip standing of 2017 from Wikipedia](https://en.wikipedia.org/wiki/2017_Formula_One_World_Championship). I then saved the table as a **.csv** using Excel.
+
+### Data wrangling
+
+I will first start by doing some cleaning and transformation of dataset so it will be nice and easy to then create visualizations. 
+
+```{r}
+library(tidyverse) # For plotting and data wrangling
+
+# Read dataset from .csv
+f1 <- read.csv('C:/Users/MaPa/Desktop/Jacob/MT5013/Homework/HW1/f1_2017.csv', 
+                    header = TRUE, 
+                    sep = ';', 
+                    encoding = 'UTF-8')
+
+f1 <- f1[-1,]  # Drop first row
+colnames(f1)[c(1)] <- c('Pos') # Change column name
+race_vector <- colnames(f1)[3:22] # Save order of races to a vector
+
+
+f1_long <- gather(f1, Race, Race_position, AUS:ABU) # Create long dataframe
+f1_long <- filter(f1_long, Pos != '') # Drop observations where driver did not race
+
+
+# Create table to substitue position for points
+Race_position <- c(seq(1, 25), 'Ret', 'DNS')
+Points_race <- c(25, 18, 15, 12, 10, 8, 6, 4, 2, 1, rep(0, 17))
+pos_points_df <- data.frame(Race_position, Points_race)
+
+# Merge data and create tibble
+f1_2017 <- as_tibble(merge
+                     (x = f1_long,
+                      y = pos_points_df, 
+                      by = 'Race_position')
+                     )
+
+# Make measure factors and order them
+f1_2017$Race <- as.factor(f1_2017$Race)
+f1_2017$Race <- factor(f1_2017$Race, levels = race_vector)
+f1_2017$Race_position <- as.factor(f1_2017$Race_position)
+f1_2017$Race_position <- ordered(f1_2017$Race_position, levels = c(seq(1:25), 'Ret', 'DNS'))
+f1_2017$Driver <- reorder(f1_2017$Driver, -f1_2017$Points)
+
+# Filter the 9 best driver for Visualization
+f1_top9 <- f1_2017 %>% filter(Pos %in% c(seq(1, 9)))
+
+```
+
+
+### Visualization
+
+Now we have a small dataset that we can visualize. Let us look at the race results for the top 9 drivers of the year.
+
+
+```{r, fig.width = 10}
+ggplot(f1_top9, aes(x = Race, y = Points_race, group = Driver, color = Driver)) +
+    geom_line(show.legend = FALSE) +
+    facet_wrap(~Driver, nrow = 3) +
+    scale_x_discrete(breaks = c("AUS", "MON", "HUN", "JPN", "ABU")) +
+    ylab("Points in race") +
+    labs(title = "F1 race results 2017, top 9 drivers",
+       caption = "source: https://en.wikipedia.org/wiki/2017_Formula_One_World_Championship")
+```
+
+
+```{r}
+sessionInfo()
+```
